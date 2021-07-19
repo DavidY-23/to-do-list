@@ -5,6 +5,7 @@ import './style.css';
  */
 
 //Creates the sidebar. 
+var value = 0;
 const sidebar = document.getElementById("sidenav");
 const sideProject = document.getElementById("projects")
 
@@ -36,10 +37,22 @@ function newTask() {
     //newTask.appendChild(newDeleteButton);
 
 }   
+//Button to delete project.
+function DeleteProject() {
+    window.value = 1;
+    this.parentElement.remove();
+    this.parentNode.remove();
+}
 
 //To change between Projects.
 function taskView() {
     const theTasks = document.getElementById("tasks");
+    //If delete button for project is called.
+    if (window.value === 1) {
+        theTasks.innerHTML = "";
+        window.value = 0;
+        return;
+    }
     let newTaskButton = document.createElement("button");
     newTaskButton.textContent = "New Task";
     newTaskButton.addEventListener("click", newTask);
@@ -66,13 +79,7 @@ function AddProject(){
     newProjectItem.appendChild(newDeleteButton);
 }
 
-//Button to delete project.
-function DeleteProject() {
-    this.parentNode.remove();
-    console.log(this);
-    console.log("Parent" + this.parentNode);
 
-}
 
 sidebar.innerHTML =`To Do List <button id="newProject">Add</button><br>`;
  
@@ -84,7 +91,6 @@ firstProject.textContent = "Project";
 firstProject.addEventListener("click", taskView);
 firstProject.appendChild(DeleteButton);
 sidebar.appendChild(firstProject);
-
 
 document.getElementById("deleteButton").addEventListener("click", DeleteProject);
 document.getElementById("newProject").addEventListener("click", AddProject);
