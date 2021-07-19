@@ -1,6 +1,6 @@
 #sidenav {
     height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 320px; /* Set the width of the sidebar */
+    width: 16%; /* Set the width of the sidebar */
     position: fixed; /* Fixed Sidebar (stay in place on scroll) */
     z-index: 1; /* Stay on top */
     top: 0; /* Stay at the top */
@@ -8,11 +8,13 @@
     background-color: rgb(172, 167, 167); /* Black */
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 20px;
-  }
-.project {
-  border-style: solid;
 }
+
+.project {
+  border: 1px solid #000000;
+  margin-bottom: 5px;
+}
+
 .project:hover {
   color: white;
-
 }

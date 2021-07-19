@@ -9,13 +9,18 @@ import './style.css';
 const sidebar = document.getElementById("sidenav");
 const sideProject = document.getElementById("projects")
 
-//Delete Button.
+//Initial Delete Button.
 const DeleteButton = document.createElement("button");
+DeleteButton.id = "deleteButton";
 DeleteButton.innerHTML = "X";
 
 //Adds a new project.
 function AddProject(){
     let newProjectItem = document.createElement('div');
+    let newDeleteButton = document.createElement("button");
+    newDeleteButton.id = "deleteButton";
+    newDeleteButton.innerHTML = "X";
+    newDeleteButton.addEventListener("click", DeleteProject);
     newProjectItem.classList.add('project');
     let newProject = prompt("Enter your new project", "");
     if (newProject == null || newProject == "") {
@@ -25,7 +30,8 @@ function AddProject(){
         newProjectItem.textContent = newProject;
         newProjectItem.id = newProject;
         sidebar.appendChild(newProjectItem);
-        newProjectItem.appendChild(DeleteButton);
+        newProjectItem.appendChild(newDeleteButton);
+        console.log(newDeleteButton.id);
 
     }
 }
@@ -35,7 +41,6 @@ function DeleteProject() {
     this.parentNode.remove()
 }
 
-DeleteButton.addEventListener("click", DeleteProject);
 
 sidebar.innerHTML =`To Do List <button id="newProject">Add</button><br>`;
  
@@ -48,6 +53,7 @@ firstProject.appendChild(DeleteButton);
 sidebar.appendChild(firstProject);
 
 document.getElementById("newProject").addEventListener("click", AddProject);
+document.getElementById("deleteButton").addEventListener("click", DeleteProject);
 
 
 
@@ -56,4 +62,3 @@ document.getElementById("newProject").addEventListener("click", AddProject);
 /***
  * Adding tasks.
  */
-
