@@ -1,15 +1,40 @@
-#sidenav {
-    height: 100%; /* Full-height: remove this if you want "auto" height */
-    width: 16%; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    z-index: 1; /* Stay on top */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: rgb(172, 167, 167); /* Black */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px;
+html{
+  height:100%;
+}
+body{
+  height:100%;
+  margin: 0;
 }
 
+.list {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  background-color: rgb(202, 202, 216);
+  border: black;
+}
+#sidenav {
+  background-color: grey;
+}
+/*
+#sidenav {
+  height: 100%; 
+  width: 16%; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  background-color: rgb(172, 167, 167);
+  overflow-x: hidden; 
+  padding-top: 20px;
+}
+*/
+
+
+#todolist { 
+  background-color: pink;
+  height: 100%;
+  width: 100%;
+}
 .project {
   border: 1px solid #000000;
   margin-bottom: 5px;
