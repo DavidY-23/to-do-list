@@ -58,13 +58,30 @@ function taskView() {
     theTasks.innerHTML = this.id;
     theTasks.appendChild(newTaskButton);
 }
-let x = localStorage.length;
 
 function reloadingPage() { 
-    if (localStorage.length === 1) {
-        return;
-    }
-    for (let i = 2; i < localStorage.length+1; i++) {
+    /**
+    Object.keys(localStorage).forEach((key) => {
+        console.log(localStorage.getItem(key));
+        let newProjectItem = document.createElement('div');
+        let newDeleteButton = document.createElement("button");
+        newDeleteButton.id = key;
+        newDeleteButton.innerHTML = "X";
+        newDeleteButton.style.cssFloat  = "right";
+        newDeleteButton.addEventListener("click", DeleteProject);
+        newProjectItem.addEventListener("click", taskView);
+        newProjectItem.classList.add('project');
+        newProjectItem.innerHTML = localStorage.getItem(key);
+        newProjectItem.id = localStorage.getItem(key);
+        console.log('ID: '+ localStorage.getItem(key));
+        sidebar.appendChild(newProjectItem);
+        newProjectItem.appendChild(newDeleteButton);
+
+    })
+
+    /***     
+
+    for (let i = 1; i < localStorage.length+1; i++) {
         console.log("Inside the for loop: " + i);
         let newProjectItem = document.createElement('div');
         let newDeleteButton = document.createElement("button");
@@ -80,10 +97,41 @@ function reloadingPage() {
         sidebar.appendChild(newProjectItem);
         newProjectItem.appendChild(newDeleteButton);
     }
-
+    */
+    let x = 0;
+    Object.keys(localStorage).forEach(function(key){
+        console.log("haha u ignored me" + key)
+        if (key > x) {
+            console.log("key is bigger.")
+            x = key;
+        }
+    });
+    console.log("value of x in reload: " + x);
+    for (let i = 0; i < x+1; i++) {
+        if (localStorage.getItem(i) != null) {
+            console.log(localStorage.getItem(i));  
+            let newProjectItem = document.createElement('div');
+            let newDeleteButton = document.createElement("button");
+            newDeleteButton.id = i;
+            newDeleteButton.innerHTML = "X";
+            newDeleteButton.style.cssFloat  = "right";
+            newDeleteButton.addEventListener("click", DeleteProject);
+            newProjectItem.addEventListener("click", taskView);
+            newProjectItem.classList.add('project');
+            newProjectItem.innerHTML = localStorage.getItem(i);
+            newProjectItem.id = localStorage.getItem(i);
+            console.log('ID: '+ localStorage.getItem(i));
+            sidebar.appendChild(newProjectItem);
+            newProjectItem.appendChild(newDeleteButton);
+              
+        }
+    }
+ 
+ 
 }
 
 function callingProjects() {
+    let x = localStorage.length
     console.log("The value of x " + x);
     let newProjectItem = document.createElement('div');
     let newDeleteButton = document.createElement("button");
@@ -102,31 +150,43 @@ function callingProjects() {
 
 }
 //Adds a new project.
+
 function AddProject(){
+    let x = 0;
     let newProject = prompt("Enter your new project", "");
     if (newProject == null || newProject == "") {
         return;
     }
+    Object.keys(localStorage).forEach(function(key){
+        console.log("haha u ignored me" + key)
+        if (key > x) {
+            console.log("key is bigger.")
+            x = key;
+        }
+    });
     x++;
     localStorage.setItem(x, newProject);
-    console.log('ADDPROJECT'+ newProject);
-    callingProjects()
+    console.log('ADDPROJECT '+ newProject);
+    //callingProjects()
 }
 
 
 
 sidebar.innerHTML =`To Do List <button id="newProject">Add</button><br>`;
 //Initial project.
-let firstProject = document.createElement('div');
-firstProject.classList.add('project');
-firstProject.id = "Project";
-localStorage.setItem(1, "Project")
-DeleteButton.id = 1;
-firstProject.innerHTML = localStorage.getItem(1);
-firstProject.addEventListener("click", taskView);
-//firstProject.appendChild(DeleteButton);
-sidebar.appendChild(firstProject);
-console.log("Length of x: " + x);
+if (localStorage.length === 100000) {
+    let firstProject = document.createElement('div');
+    firstProject.classList.add('project');
+    firstProject.id = "Project";
+    localStorage.setItem(1, "Project")
+    DeleteButton.id = 1;
+    firstProject.innerHTML = localStorage.getItem(1);
+    firstProject.addEventListener("click", taskView);
+    //firstProject.appendChild(DeleteButton);
+    sidebar.appendChild(firstProject);
+    //console.log("Length of x: " + x);
+}
+
 //When page gets refreshed.
 reloadingPage();
 
