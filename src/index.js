@@ -11,32 +11,49 @@ const sideProject = document.getElementById("projects")
 //Initial Delete Button.
 const DeleteButton = document.createElement("button");
 DeleteButton.innerHTML = "X";
-
+function DeleteTask() {
+    //this.parentNode.remove()
+    let localStorageArray = JSON.parse(localStorage.getItem(this.id));
+    for (let x = 0; x < localStorageArray.length; x++) {
+        console.log("this" + this.parentNode.id);
+        console.log("Array[x] " + localStorageArray[x]);
+        if (localStorageArray[x] === this.parentNode.id) {
+            localStorageArray.splice(x, 1);
+            console.log("splicing: " + localStorageArray.splice(x, 1));
+            console.log(localStorageArray);
+        }
+    }
+    localStorage.setItem(this.id, JSON.stringify(localStorageArray));
+    console.log("parent node: " + this.parentNode.id);
+    console.log("child node: " + this.id);
+    console.log("local storage " + localStorage.getItem(this.id));
+}
 //Adding a new task.
 function newTask(projectID) {
     let newTask = prompt("Enter your new task", "");
     if (newTask == null || newTask == "") {
         return;
     }
-    console.log("this value task: " + projectID);
-    console.log("this on task: " + JSON.parse(localStorage.getItem(projectID)));
     let taskOnProject = JSON.parse(localStorage.getItem(projectID));
-    console.log("taskOnProject: " + taskOnProject);
     taskOnProject.push(newTask);
-    console.log("adding a new task: " + taskOnProject);
     localStorage.setItem(projectID, JSON.stringify(taskOnProject));
-
-    let newTaskIdea = document.createElement('div');
+    let addingNewTask = document.createElement("div");
+    addingNewTask.id = newTask;
+    //let newTaskIdea = document.getElementById('task');
     let newDeleteButton = document.createElement("button");
     let br = document.createElement("br");
-    newDeleteButton.id = "deleteButton";
+    newDeleteButton.id = projectID;
     newDeleteButton.innerHTML = "X";
-    newDeleteButton.addEventListener("click", DeleteProject);
-    newTaskIdea.classList.add('task');
-    newTaskIdea.textContent = newTask;
-    newTaskIdea.id = newTask;
-    document.getElementById("tasks").append(br);
-    document.getElementById("tasks").append(newTask);
+    newDeleteButton.addEventListener("click", DeleteTask);
+    //newTaskIdea.classList.add('task');
+
+    //newTaskIdea.textContent = newTask;
+    //newTaskIdea.id = newTask;
+    console.log("apple");
+    addingNewTask.append(br);
+    addingNewTask.append(newTask);
+    addingNewTask.append(newDeleteButton);
+    document.getElementById("task").append(addingNewTask);
 }   
 
 //Sets the view empty after clearing it.
@@ -57,28 +74,28 @@ function DeleteProject() {
 function taskView() {
 
     let taskArray = JSON.parse(localStorage.getItem(this.id));
-    console.log("TaskArray " + taskArray);
-
 
     const theTasks = document.getElementById("tasks");
     let newTaskButton = document.createElement("button");
     newTaskButton.textContent = "New Task";
-    console.log("taskView ID: " + this.id);
     newTaskButton.id = this.id;
     newTaskButton.addEventListener("click", function() {
         newTask(this.id);
     });
-    console.log("theTask " + this.id);
-    theTasks.innerHTML = this.id;
-    theTasks.appendChild(newTaskButton);
+
+    let projectTitle = JSON.parse(localStorage.getItem(this.id));
+    theTasks.innerHTML = projectTitle[0];
+    theTasks.style.fontFamily = 'Roboto';
+    theTasks.style.fontSize = '36px';
     
-    console.log("getelement: " + document.getElementById("tasks").innerText);
-    const TaskInProject = document.createElement("taskInProject");
+    theTasks.appendChild(newTaskButton);
+    const TaskInProject = document.createElement("div");
+    TaskInProject.id = "task";
     for (let x = 1; x < taskArray.length; x++) { 
         TaskInProject.innerHTML += "<br>" + taskArray[x];
+        TaskInProject.style.fontSize = '18px';
     }
     theTasks.append(TaskInProject);
-    
 }
 //Used when page is reloaded.
 function reloadingPage() { 
@@ -100,7 +117,6 @@ function reloadingPage() {
             newProjectItem.addEventListener("click", taskView);
             newProjectItem.classList.add('project');
 
-            //newProjectItem.innerHTML = JSON.parse(localStorage[i]);
             let projectSide = JSON.parse(localStorage[i]);
             newProjectItem.innerHTML = projectSide[0];
             newProjectItem.id = i;
@@ -126,7 +142,6 @@ function callingProjects(x) {
     console.log('ID'+ localStorage.getItem(x));
     sidebar.appendChild(newProjectItem);
     newProjectItem.appendChild(newDeleteButton);
-
 }
 
 //Adds a new project.
@@ -150,7 +165,7 @@ function AddProject(){
 
 
 //Adding new projects.
-sidebar.innerHTML =`To Do List <button id="newProject">Add</button><br>`;
+sidebar.innerHTML =`<button id="newProject">Add a new project</button><br>`;
 document.getElementById("newProject").addEventListener("click", AddProject);
 
 //Whenever the page is refreshed
