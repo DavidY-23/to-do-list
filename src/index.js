@@ -17,8 +17,6 @@ DeleteButton.innerHTML = "X";
 function DeleteTask() {
     let localStorageArray = JSON.parse(localStorage.getItem(this.id));
     localStorageArray.splice(this.parentNode.id, 1);
-    console.log("splicing: " + localStorageArray.splice(this.parentNode.id, 1));
-    console.log(localStorageArray);
     localStorage.setItem(this.id, JSON.stringify(localStorageArray));
     this.parentNode.innerHTML = "";
 }
@@ -38,10 +36,8 @@ function newTask(projectID) {
     newDeleteButton.id = projectID;
     newDeleteButton.innerHTML = "X";
     newDeleteButton.addEventListener("click", DeleteTask);
-    console.log("apple");
     addingNewTask.append(newTask);
     addingNewTask.append(newDeleteButton);
-    console.log("new Task: " + addingNewTask);
     document.getElementById("tasks").append(addingNewTask);
 }   
 
@@ -101,7 +97,6 @@ function reloadingPage() {
     });
     for (let i = 0; i < x+1; i++) {
         if (localStorage.getItem(i) != null) {
-            console.log(localStorage.getItem(i));  
             let newProjectItem = document.createElement('div');
             let newDeleteButton = document.createElement("button");
             newDeleteButton.id = i;
@@ -110,11 +105,9 @@ function reloadingPage() {
             newDeleteButton.addEventListener("click", DeleteProject);
             newProjectItem.addEventListener("click", taskView);
             newProjectItem.classList.add('project');
-
             let projectSide = JSON.parse(localStorage[i]);
             newProjectItem.innerHTML = projectSide[0];
             newProjectItem.id = i;
-            console.log('ID: '+ i);
             sidebar.appendChild(newProjectItem);
             newProjectItem.appendChild(newDeleteButton);
         }
@@ -133,7 +126,6 @@ function callingProjects(x) {
     newProjectItem.classList.add('project');
     newProjectItem.innerHTML = JSON.parse(localStorage.getItem(x));
     newProjectItem.id = x;
-    console.log('ID'+ localStorage.getItem(x));
     sidebar.appendChild(newProjectItem);
     newProjectItem.appendChild(newDeleteButton);
 }
