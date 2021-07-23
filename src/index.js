@@ -9,24 +9,18 @@ const sidebar = document.getElementById("sidenav");
 const sideProject = document.getElementById("projects")
 
 //Initial Delete Button.
+//Uses parent node to identify where in array the task is and deletes.
 const DeleteButton = document.createElement("button");
 DeleteButton.innerHTML = "X";
+
+//Deleting a task
 function DeleteTask() {
-    //this.parentNode.remove()
     let localStorageArray = JSON.parse(localStorage.getItem(this.id));
-    for (let x = 0; x < localStorageArray.length; x++) {
-        console.log("this" + this.parentNode.id);
-        console.log("Array[x] " + localStorageArray[x]);
-        if (localStorageArray[x] === this.parentNode.id) {
-            localStorageArray.splice(x, 1);
-            console.log("splicing: " + localStorageArray.splice(x, 1));
-            console.log(localStorageArray);
-        }
-    }
+    localStorageArray.splice(this.parentNode.id, 1);
+    console.log("splicing: " + localStorageArray.splice(this.parentNode.id, 1));
+    console.log(localStorageArray);
     localStorage.setItem(this.id, JSON.stringify(localStorageArray));
-    console.log("parent node: " + this.parentNode.id);
-    console.log("child node: " + this.id);
-    console.log("local storage " + localStorage.getItem(this.id));
+    this.parentNode.innerHTML = "";
 }
 //Adding a new task.
 function newTask(projectID) {
@@ -38,22 +32,17 @@ function newTask(projectID) {
     taskOnProject.push(newTask);
     localStorage.setItem(projectID, JSON.stringify(taskOnProject));
     let addingNewTask = document.createElement("div");
-    addingNewTask.id = newTask;
-    //let newTaskIdea = document.getElementById('task');
+    addingNewTask.style.fontSize = "18px";
+    addingNewTask.id = taskOnProject.length-1;
     let newDeleteButton = document.createElement("button");
-    let br = document.createElement("br");
     newDeleteButton.id = projectID;
     newDeleteButton.innerHTML = "X";
     newDeleteButton.addEventListener("click", DeleteTask);
-    //newTaskIdea.classList.add('task');
-
-    //newTaskIdea.textContent = newTask;
-    //newTaskIdea.id = newTask;
     console.log("apple");
-    addingNewTask.append(br);
     addingNewTask.append(newTask);
     addingNewTask.append(newDeleteButton);
-    document.getElementById("task").append(addingNewTask);
+    console.log("new Task: " + addingNewTask);
+    document.getElementById("tasks").append(addingNewTask);
 }   
 
 //Sets the view empty after clearing it.
@@ -87,15 +76,20 @@ function taskView() {
     theTasks.innerHTML = projectTitle[0];
     theTasks.style.fontFamily = 'Roboto';
     theTasks.style.fontSize = '36px';
-    
     theTasks.appendChild(newTaskButton);
-    const TaskInProject = document.createElement("div");
-    TaskInProject.id = "task";
-    for (let x = 1; x < taskArray.length; x++) { 
-        TaskInProject.innerHTML += "<br>" + taskArray[x];
+
+    for (let x = 1; x < taskArray.length; x++) {
+        let deleteButton = document.createElement("button");
+        deleteButton.id = this.id;
+        deleteButton.innerText = "X";
+        deleteButton.addEventListener("click", DeleteTask);
+        const TaskInProject = document.createElement("div");
+        TaskInProject.id = x; 
+        TaskInProject.innerHTML = taskArray[x];
         TaskInProject.style.fontSize = '18px';
+        TaskInProject.append(deleteButton);
+        theTasks.append(TaskInProject);
     }
-    theTasks.append(TaskInProject);
 }
 //Used when page is reloaded.
 function reloadingPage() { 
