@@ -1,6 +1,6 @@
 import './style.css';
-import {DeleteTask, DeleteProject} from './/delete.js';
-import {clearingView} from './/views.js';
+import {DeleteTask } from './/delete.js';
+import {clearingView, DeleteProject} from './/views.js';
 
 /***
  * All the adding project stuff.
