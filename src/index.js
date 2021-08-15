@@ -58,8 +58,21 @@ function EditTask() {
         return;
     } 
     localStorageArray[1] = editTask;
+    let editButton = document.createElement("button");
+    editButton.id = this.id;
+    editButton.innerHTML = "Edit";
+    editButton.addEventListener("click", EditTask);
+    let newDeleteButton = document.createElement("button");
+    newDeleteButton.id = this.id;
+    newDeleteButton.innerHTML = "X";
+    newDeleteButton.addEventListener("click", DeleteTask);
+
+    this.parentNode.firstChild.nodeValue = editTask;
+    console.log(this.parentNode.firstChild);
+
     localStorage.setItem(this.id, JSON.stringify(localStorageArray));
 }
+
 //Adding a new task.
 function newTask(projectID) {
     let newTask = prompt("Enter your new task", "");
