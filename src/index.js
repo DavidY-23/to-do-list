@@ -1,4 +1,6 @@
 import './style.css';
+import {DeleteTask, DeleteProject} from './/delete.js';
+import {clearingView} from './/views.js';
 
 /***
  * All the adding project stuff.
@@ -13,53 +15,9 @@ const sideProject = document.getElementById("projects")
 const DeleteButton = document.createElement("button");
 DeleteButton.innerHTML = "X";
 
-//Deleting a task
-function DeleteTask() {
-    let localStorageArray = JSON.parse(localStorage.getItem(this.id));
-    localStorageArray.splice(this.parentNode.id, 1);
-    localStorage.setItem(this.id, JSON.stringify(localStorageArray));
-    this.parentNode.innerHTML = "";
-}
-//Adding a new task.
-function newTask(projectID) {
-    let newTask = prompt("Enter your new task", "");
-    if (newTask == null || newTask == "") {
-        return;
-    }
-    let taskOnProject = JSON.parse(localStorage.getItem(projectID));
-    taskOnProject.push(newTask);
-    localStorage.setItem(projectID, JSON.stringify(taskOnProject));
-    let addingNewTask = document.createElement("div");
-    addingNewTask.style.fontSize = "18px";
-    addingNewTask.id = taskOnProject.length-1;
-    let newDeleteButton = document.createElement("button");
-    newDeleteButton.id = projectID;
-    newDeleteButton.innerHTML = "X";
-    newDeleteButton.addEventListener("click", DeleteTask);
-    addingNewTask.append(newTask);
-    addingNewTask.append(newDeleteButton);
-    document.getElementById("tasks").append(addingNewTask);
-}   
-
-//Sets the view empty after clearing it.
-function clearingView () {
-    const theTasks = document.getElementById("tasks");
-    theTasks.innerHTML = "";
-}
-
-//Button to delete project.
-function DeleteProject() {
-    this.parentNode.remove()
-    localStorage.removeItem(this.id);
-    event.stopPropagation();
-    clearingView();
-}
-
-//To change between Projects.
+//To change between Projects and to add tasks.
 function taskView() {
-
     let taskArray = JSON.parse(localStorage.getItem(this.id));
-
     const theTasks = document.getElementById("tasks");
     let newTaskButton = document.createElement("button");
     newTaskButton.textContent = "New Task";
@@ -79,14 +37,55 @@ function taskView() {
         deleteButton.id = this.id;
         deleteButton.innerText = "X";
         deleteButton.addEventListener("click", DeleteTask);
+        let editButton = document.createElement("button");
+        editButton.innerText = "Edit";
+        editButton.id = this.id;
+        editButton.addEventListener("click", EditTask);
         const TaskInProject = document.createElement("div");
         TaskInProject.id = x; 
         TaskInProject.innerHTML = taskArray[x];
         TaskInProject.style.fontSize = '18px';
+        TaskInProject.append(editButton);
         TaskInProject.append(deleteButton);
         theTasks.append(TaskInProject);
     }
 }
+//Edits the task.
+function EditTask() {
+    let localStorageArray = JSON.parse(localStorage.getItem(this.id));
+    let editTask = prompt("Edit your task", ""); 
+    if (editTask == null || editTask == "") {
+        return;
+    } 
+    localStorageArray[1] = editTask;
+    localStorage.setItem(this.id, JSON.stringify(localStorageArray));
+}
+//Adding a new task.
+function newTask(projectID) {
+    let newTask = prompt("Enter your new task", "");
+    if (newTask == null || newTask == "") {
+        return;
+    }
+    let taskOnProject = JSON.parse(localStorage.getItem(projectID));
+    taskOnProject.push(newTask);
+    localStorage.setItem(projectID, JSON.stringify(taskOnProject));
+    let addingNewTask = document.createElement("div");
+    addingNewTask.style.fontSize = "18px";
+    addingNewTask.id = taskOnProject.length-1;
+    let editButton = document.createElement("button");
+    editButton.id = projectID;
+    editButton.innerHTML = "Edit";
+    editButton.addEventListener("click", EditTask);
+    let newDeleteButton = document.createElement("button");
+    newDeleteButton.id = projectID;
+    newDeleteButton.innerHTML = "X";
+    newDeleteButton.addEventListener("click", DeleteTask);
+    addingNewTask.append(newTask);
+    addingNewTask.append(editButton);
+    addingNewTask.append(newDeleteButton);
+    document.getElementById("tasks").append(addingNewTask);
+}   
+
 //Used when page is reloaded.
 function reloadingPage() { 
     let x = 0;
