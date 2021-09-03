@@ -57,7 +57,7 @@ function EditTask() {
     if (editTask == null || editTask == "") {
         return;
     } 
-    localStorageArray[1] = editTask;
+    localStorageArray[this.parentNode.id] = editTask;
     let editButton = document.createElement("button");
     editButton.id = this.id;
     editButton.innerHTML = "Edit";
@@ -66,10 +66,11 @@ function EditTask() {
     newDeleteButton.id = this.id;
     newDeleteButton.innerHTML = "X";
     newDeleteButton.addEventListener("click", DeleteTask);
-
-    this.parentNode.firstChild.nodeValue = editTask;
     console.log(this.parentNode.firstChild);
-
+    this.parentNode.firstChild.nodeValue = editTask;
+    //console.log(this.parentNode.firstChild);
+    console.log(this.parentNode.id)
+    console.log(localStorageArray);
     localStorage.setItem(this.id, JSON.stringify(localStorageArray));
 }
 
